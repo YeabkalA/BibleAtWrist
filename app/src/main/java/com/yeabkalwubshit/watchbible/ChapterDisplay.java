@@ -1,20 +1,17 @@
 package com.yeabkalwubshit.watchbible;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.wear.widget.WearableRecyclerView;
 
 public class ChapterDisplay extends WearableActivity {
@@ -64,6 +61,8 @@ public class ChapterDisplay extends WearableActivity {
 
             }
         };
+        adapter.setId(Consts.ADAPTER_ID_CHAPTER_DISPLAY);
+
         versesRecyclerView.setAdapter(adapter);
 
         // Enables Always-on
@@ -73,10 +72,4 @@ public class ChapterDisplay extends WearableActivity {
     private String createBookChapterExtra(String book, String chapter) {
         return book + "*" + chapter;
     }
-
-//    private void goToChapterDisplay(String book, String chapter) {
-//        Intent intent = new Intent(this, ChapterSelect.class);
-//        intent.putExtra(Consts.BOOK_CHAPTER_EXTRA, createBookChapterExtra(book, chapter));
-//        startActivity(intent);
-//    }
 }

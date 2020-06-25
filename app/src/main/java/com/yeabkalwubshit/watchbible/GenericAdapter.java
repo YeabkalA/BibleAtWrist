@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public abstract class GenericAdapter extends RecyclerView.Adapter<GenericAdapter.ViewHolder> {
     private List<GenericTableCellData> items;
     private Context context;
+    private int id;
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -23,6 +25,10 @@ public abstract class GenericAdapter extends RecyclerView.Adapter<GenericAdapter
             super(v);
             mainText = v.findViewById(R.id.main_text);
         }
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void add(int position, GenericTableCellData chapter) {
@@ -59,6 +65,17 @@ public abstract class GenericAdapter extends RecyclerView.Adapter<GenericAdapter
                 GenericAdapter.this.onClick(item.toString());
             }
         });
+
+        if (id == Consts.ADAPTER_ID_CHAPTER_DISPLAY) {
+            holder.mainText.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(v.getContext(), "Press check", Toast.LENGTH_SHORT).show();
+                    VerseSaver.saveVerse(item.getVerse());
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
