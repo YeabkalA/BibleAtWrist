@@ -35,7 +35,14 @@ public class ChapterSelect extends WearableActivity {
         chaptersRecyclerView.setLayoutManager(layoutManager);
 
         final String currentBook = getIntent().getStringExtra(Consts.BOOK_EXTRA);
-        bookNameView.setText(BibleReader.getLongVersionBookName(currentBook));
+
+        try {
+            bookNameView.setText(BibleReader.getLongVersionBookName(this, currentBook));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         List<String> allChapters = null;
         try {

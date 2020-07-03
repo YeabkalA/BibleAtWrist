@@ -6,7 +6,6 @@
     <uses-feature android:name="android.hardware.type.watch" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +26,16 @@
 
         <activity
             android:name=".BookSelect"
-            android:label="@string/title_activity_book_select">
+            android:label="@string/title_activity_book_select"></activity>
+        <activity
+            android:name=".ChapterSelect"
+            android:label="@string/title_activity_chapter_select" />
+        <activity
+            android:name=".ChapterDisplay"
+            android:label="@string/title_activity_chapter_display" />
+        <activity
+            android:name=".IntroPage"
+            android:label="@string/title_activity_intro_page">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,14 +43,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ChapterSelect"
-            android:label="@string/title_activity_chapter_select">
+            android:name=".RandomVerseDisplay"
+            android:label="@string/title_activity_random_verse_display">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        </activity>
-        <activity
-            android:name=".ChapterDisplay"
-            android:label="@string/title_activity_chapter_display">
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

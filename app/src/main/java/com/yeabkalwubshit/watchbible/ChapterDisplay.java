@@ -37,8 +37,12 @@ public class ChapterDisplay extends WearableActivity {
         String currentBook = bookChapter[0];
         String currentChapter = bookChapter[1];
 
-        bookChapterView.setText(
-                BibleReader.getLongVersionBookName(currentBook) + " " + currentChapter);
+        try {
+            bookChapterView.setText(
+                    BibleReader.getLongVersionBookName(ChapterDisplay.this, currentBook) + " " + currentChapter);
+        } catch (IOException | JSONException e) {
+            Log.d(TAG, "Exception in getting long version book name: " + e.toString());
+        }
 
         List<Verse> allVerses = null;
         try {
@@ -51,11 +55,15 @@ public class ChapterDisplay extends WearableActivity {
 
         List<GenericTableCellData> tableData = new ArrayList<>();
         for(Verse verseInfo: allVerses) {
-            tableData.add(new GenericTableCellData(
-                    verseInfo.verseNumber + ". " + verseInfo.verse));
+            GenericTableCellData data = new GenericTableCellData(
+                    verseInfo.verseNumber + ". " + verseInfo.verse);
+            verseInfo.setBook(currentBook);
+            verseInfo.setChapter(currentChapter);
+            data.setVerse(verseInfo);
+            tableData.add(data);
         }
 
-        GenericAdapter adapter = new GenericAdapter(tableData, this) {
+        GenericAdapter adapter = new GenericAdapter(tableData, getApplicationContext()) {
             @Override
             public void onClick(String itemClicked) {
 

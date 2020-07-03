@@ -123,6 +123,10 @@ public class BibleReader {
         return verses;
     }
 
+    public String getVerseText(String book, String chapter, String verseNumber) {
+        return getAllVersesOfAChapter(book, chapter).get(Integer.parseInt(verseNumber) - 1).getVerse();
+    }
+
     public static BibleReader getSingleton(Context context) throws IOException, JSONException {
         if (SINGLETON  == null) {
             SINGLETON = new BibleReader(context);
@@ -131,12 +135,20 @@ public class BibleReader {
         return SINGLETON;
     }
 
-    public static String getLongVersionBookName(String shortVersionBookName) {
+    public static String getLongVersionBookName(Context context, String shortVersionBookName)
+            throws IOException, JSONException{
+        if (SINGLETON  == null) {
+            SINGLETON = new BibleReader(context);
+        }
         // Change incoming string to lower case first to comply with data format.
         return SINGLETON.abbrevToLongMap.get(shortVersionBookName.toLowerCase());
     }
 
-    public static String getShortVersionBookName(String longVersionBookName) {
+    public static String getShortVersionBookName(Context context, String longVersionBookName)
+            throws IOException, JSONException {
+        if (SINGLETON  == null) {
+            SINGLETON = new BibleReader(context);
+        }
         // Change incoming string to lower case first to comply with data format.
         return SINGLETON.longToAbbrevMap.get(longVersionBookName);
     }

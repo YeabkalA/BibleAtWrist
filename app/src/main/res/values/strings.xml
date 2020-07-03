@@ -8,4 +8,6 @@
     <string name="title_activity_book_select">Bible At Wrist</string>
     <string name="title_activity_chapter_select">ChapterSelect</string>
     <string name="title_activity_chapter_display">ChapterDisplay</string>
+    <string name="title_activity_intro_page">Bible (KJV) Offline</string>
+    <string name="title_activity_random_verse_display">RandomVerseDisplay</string>
 </resources>
