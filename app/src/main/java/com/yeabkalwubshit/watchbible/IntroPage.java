@@ -1,9 +1,15 @@
 package com.yeabkalwubshit.watchbible;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +25,8 @@ public class IntroPage extends WearableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_page);
+
+        showTimePickerDialog();
 
         options = findViewById(R.id.intro_recycler_view);
         options.setEdgeItemsCenteringEnabled(true);
@@ -48,7 +56,36 @@ public class IntroPage extends WearableActivity {
 
         options.setAdapter(adapter);
 
+        createNotificationChannel();
+        //NotificationTool.sendNotification(this);
+
         // Enables Always-on
         setAmbientEnabled();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "MYCHannel";
+            String description = "First channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("0", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showTimePickerDialog() {
+        TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                NotificationTool.scheduleNotification(IntroPage.this, hourOfDay, minute);
+            }
+        }, 2,2,false);
+        dialog.show();
     }
 }

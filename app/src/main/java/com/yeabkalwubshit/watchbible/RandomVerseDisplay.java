@@ -1,5 +1,6 @@
 package com.yeabkalwubshit.watchbible;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.widget.TextView;
@@ -30,19 +31,23 @@ public class RandomVerseDisplay extends WearableActivity {
         verseDisplay = findViewById(R.id.random_verse_displaying_table);
         verseDisplay.setLayoutManager(new LinearLayoutManager(this));
 
-
-        Verse randomVerse = null;
-        try {
-            randomVerse = RandomVerseSupplier.getRandomVerseFromSingleton(this);
-        } catch (IOException | JSONException e) {
-            return;
-        }
-
-        verseInfoDisplay.setText(randomVerse.getBook() + " " + randomVerse.getChapter() + ":" + randomVerse.getVerseNumber());
-
         List<GenericTableCellData> tableData = new ArrayList<>();
-        tableData.add(new GenericTableCellData(randomVerse.getVerse()));
 
+        Intent incomingIntent = getIntent();
+        if (incomingIntent.hasExtra(Verse.INTENT_TEXT_EXTRA_KEY)) {
+            verseInfoDisplay.setText(incomingIntent.getStringExtra(Verse.INTENT_HEADER_EXTRA_KEY));
+            tableData.add(new GenericTableCellData(incomingIntent.getStringExtra(Verse.INTENT_TEXT_EXTRA_KEY)));
+        } else {
+            Verse randomVerse = null;
+            try {
+                randomVerse = RandomVerseSupplier.getRandomVerseFromSingleton(this);
+            } catch (IOException | JSONException e) {
+                return;
+            }
+
+            verseInfoDisplay.setText(randomVerse.getHeader());
+            tableData.add(new GenericTableCellData(randomVerse.getVerse()));
+        }
 
         GenericAdapter adapter = new GenericAdapter(tableData, this) {
             @Override
